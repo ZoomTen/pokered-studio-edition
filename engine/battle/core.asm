@@ -6634,7 +6634,7 @@ LoadHudTilePatterns:
 	ld de, vChars2 tile $6d
 	ld bc, BattleHudTiles1End - BattleHudTiles1
 	ld a, BANK(BattleHudTiles1)
-	call FarCopyDataDouble
+	call FarCopyData
 	ld hl, BattleHudTiles2
 	ld de, vChars2 tile $73
 	ld bc, BattleHudTiles3End - BattleHudTiles2
@@ -6644,7 +6644,7 @@ LoadHudTilePatterns:
 	ld de, BattleHudTiles1
 	ld hl, vChars2 tile $6d
 	lb bc, BANK(BattleHudTiles1), (BattleHudTiles1End - BattleHudTiles1) / $8
-	call CopyVideoDataDouble
+	call CopyVideoData
 	ld de, BattleHudTiles2
 	ld hl, vChars2 tile $73
 	lb bc, BANK(BattleHudTiles2), (BattleHudTiles3End - BattleHudTiles2) / $8

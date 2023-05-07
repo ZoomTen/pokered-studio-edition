@@ -24,9 +24,8 @@ DisplayTextIDInit::
 	jr .drawTextBoxBorder
 ; if text ID is not 0 (i.e. not the start menu) then do a standard dialogue text box
 .notStartMenu
-	hlcoord 0, 12
-	ld b, $04
-	ld c, $12
+	hlcoord 0, 14
+	lb bc, 2, $12
 .drawTextBoxBorder
 	call TextBoxBorder
 .skipDrawingTextBoxBorder

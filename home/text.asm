@@ -7,8 +7,7 @@ TextBoxBorder::
 	ld [hli], a
 	inc a ; "─"
 	call .PlaceChars
-	inc a ; "┐"
-	ld [hl], a
+	ld [hl], "┐"
 	pop hl
 
 	ld de, SCREEN_WIDTH
@@ -229,13 +228,13 @@ Paragraph::
 	ldcoord_a 18, 16
 	call ProtectedDelay3
 	call ManualTextScroll
-	hlcoord 1, 13
-	lb bc, 4, 18
+	hlcoord 1, 15
+	lb bc, 2, 18
 	call ClearScreenArea
 	ld c, 20
 	call DelayFrames
 	pop de
-	hlcoord 1, 14
+	hlcoord 1, 15
 	jp NextChar
 
 PageChar::
@@ -267,7 +266,6 @@ _ContText::
 _ContTextNoPause::
 	push de
 	call ScrollTextUpOneLine
-	call ScrollTextUpOneLine
 	hlcoord 1, 16
 	pop de
 	jp NextChar
@@ -277,9 +275,9 @@ _ContTextNoPause::
 ; first time, copy the two rows of text to the "in between" rows that are usually emtpy
 ; second time, copy the bottom row of text into the top row of text
 ScrollTextUpOneLine::
-	hlcoord 0, 14 ; top row of text
-	decoord 0, 13 ; empty line above text
-	ld b, SCREEN_WIDTH * 3
+	hlcoord 1, 16 ; top row of text
+	decoord 1, 15 ; empty line above text
+	ld b, SCREEN_WIDTH - 1
 .copyText
 	ld a, [hli]
 	ld [de], a

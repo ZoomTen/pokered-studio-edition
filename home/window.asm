@@ -290,5 +290,5 @@ PrintText::
 	call Delay3
 	pop hl
 PrintText_NoCreatingTextBox::
-	bccoord 1, 14
+	bccoord 1, 15
 	jp TextCommandProcessor

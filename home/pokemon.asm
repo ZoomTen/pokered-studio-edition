@@ -29,7 +29,7 @@ DrawHPBar::
 	jr z, .ok
 	dec a ; pokemon menu
 .ok
-	ld [hl], a
+	;ld [hl], a
 
 	pop hl
 
