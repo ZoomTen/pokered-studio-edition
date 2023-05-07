@@ -492,7 +492,7 @@ _HandleMidJump::
 	ld a, [wPlayerJumpingYScreenCoordsIndex]
 	ld c, a
 	inc a
-	cp $10
+	cp $20
 	jr nc, .finishedJump
 	ld [wPlayerJumpingYScreenCoordsIndex], a
 	ld b, 0
@@ -522,4 +522,20 @@ _HandleMidJump::
 
 PlayerJumpingYScreenCoords:
 ; Sequence of y screen coordinates for player's sprite when jumping over a ledge.
-	db $38, $36, $34, $32, $31, $30, $30, $30, $31, $32, $33, $34, $36, $38, $3C, $3C
+; Interpolated
+	db $38, $37
+	db $36, $35
+	db $34, $33
+	db $32, $31
+	db $31, $30
+	db $30, $30
+	db $30, $30
+	db $30, $31
+	db $31, $32
+	db $32, $33
+	db $34, $35
+	db $36, $37
+	db $38, $39
+	db $3A, $3B
+	db $3C, $3C
+	db $3C, $3C
