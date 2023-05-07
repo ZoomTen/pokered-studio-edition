@@ -19,14 +19,13 @@ EnterMap::
 	bit 5, [hl] ; did a battle happen immediately before this?
 	res 5, [hl] ; unset the "battle just happened" flag
 	call z, ResetUsingStrengthOutOfBattleBit
-	call nz, MapEntryAfterBattle
+	call GBFadeInFromWhite
 	ld hl, wd732
 	ld a, [hl]
 	and 1 << 4 | 1 << 3 ; fly warp or dungeon warp
 	jr z, .didNotEnterUsingFlyWarpOrDungeonWarp
 	res 3, [hl]
 	farcall EnterMapAnim
-	call UpdateSprites
 .didNotEnterUsingFlyWarpOrDungeonWarp
 	farcall CheckForceBikeOrSurf ; handle currents in SF islands and forced bike riding in cycling road
 	ld hl, wd72d
@@ -37,6 +36,7 @@ EnterMap::
 	set 6, [hl]
 	xor a
 	ld [wJoyIgnore], a
+	call UpdateSprites
 
 OverworldLoop::
 OverworldLoopLessDelay::
@@ -497,7 +497,7 @@ WarpFound2::
 	jr nz, .notRockTunnel
 	ld a, $06
 	ld [wMapPalOffset], a
-	call GBFadeOutToBlack
+	call GBFadeOutToWhite
 .notRockTunnel
 	call PlayMapChangeSound
 	jr .done
@@ -699,7 +699,9 @@ PlayMapChangeSound::
 	ld a, [wMapPalOffset]
 	and a
 	ret nz
-	jp GBFadeOutToBlack
+	call GBFadeOutToWhite
+	ld c, 10
+	jp DelayFrames
 
 CheckIfInOutsideMap::
 ; If the player is in an outside map (a town or route), set the z flag
@@ -747,9 +749,9 @@ ExtraWarpCheck::
 
 MapEntryAfterBattle::
 	farcall IsPlayerStandingOnWarp ; for enabling warp testing after collisions
-	ld a, [wMapPalOffset]
-	and a
-	jp z, GBFadeInFromWhite
+	;ld a, [wMapPalOffset]
+	;and a
+	;jp z, GBFadeOutToWhite
 	jp LoadGBPal
 
 HandleBlackOut::

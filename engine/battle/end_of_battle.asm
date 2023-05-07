@@ -69,7 +69,7 @@ EndOfBattle:
 	ld hl, wd72c
 	set 0, [hl]
 	call WaitForSoundToFinish
-	call GBPalWhiteOut
+	call GBFadeOutToWhite
 	ld a, $ff
 	ld [wDestinationWarpID], a
 	ret
