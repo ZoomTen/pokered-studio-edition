@@ -54,11 +54,13 @@
 	charmap "ぇ",         $77 ; hiragana small e, unused
 	charmap "ぉ",         $78 ; hiragana small o, unused
 
-	charmap "┌",         $79
-	charmap "─",         $7a
-	charmap "┐",         $7b
-	charmap "│",         $7c
-	charmap "└",         $7d
+	charmap "┌",         $77
+	charmap "─",         $78
+	charmap "┐",         $79
+	charmap "│",         $7a ; left
+	charmap "│",         $7b ; right
+	charmap "└",         $7c
+	charmap "_",         $7d
 	charmap "┘",         $7e
 	charmap " ",         $7f
 
