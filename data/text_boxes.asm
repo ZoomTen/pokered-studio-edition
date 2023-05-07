@@ -7,7 +7,7 @@ TextBoxFunctionTable:
 
 TextBoxCoordTable:
 	; text box ID, upper-left X, upper-left Y, lower-right X, lower-right Y
-	db MESSAGE_BOX,       0, 14, 19, 17
+	db MESSAGE_BOX,       0, 0, 19, 3
 	db MENU_TEMPLATE_03,  0,  0, 19, 14
 	db MENU_TEMPLATE_07,  0,  0, 11,  6
 	db LIST_MENU_BOX,     4,  2, 19, 12

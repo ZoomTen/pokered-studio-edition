@@ -104,9 +104,16 @@ HoldTextDisplayOpen::
 CloseTextDisplay::
 	ld a, [wCurMap]
 	call SwitchToMapRomBank
+	ldh a, [hSpriteIndexOrTextID]
+	jr nz, .normal
+; dialog out
+; animate down
+	call ScrollWindowDownTextBox
+	jr .done
+.normal
 	ld a, $90
 	ldh [hWY], a ; move the window off the screen
-	call DelayFrame
+.done
 	call LoadGBPal
 	xor a
 	ldh [hAutoBGTransferEnabled], a ; disable continuous WRAM to VRAM transfer each V-blank

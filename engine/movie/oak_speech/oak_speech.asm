@@ -63,7 +63,7 @@ OakSpeech:
 	call IntroDisplayPicCenteredOrUpperRight
 	call FadeInIntroPic
 	ld hl, OakSpeechText1
-	call PrintText
+	call PrintText_Standalone
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld a, NIDORINO
@@ -72,17 +72,21 @@ OakSpeech:
 	call GetMonHeader
 	hlcoord 6, 4
 	call LoadFlippedFrontSpriteByMonIndex
+	ld b, HIGH(vBGMap0)
+	call CopyScreenTileBufferToVRAM
 	call MovePicLeft
 	ld hl, OakSpeechText2
-	call PrintText
+	call PrintText_Standalone
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $00
 	call IntroDisplayPicCenteredOrUpperRight
+	ld b, HIGH(vBGMap0)
+	call CopyScreenTileBufferToVRAM
 	call MovePicLeft
 	ld hl, IntroducePlayerText
-	call PrintText
+	call PrintText_Standalone
 	call ChoosePlayerName
 	call GBFadeOutToWhite
 	call ClearScreen
@@ -91,7 +95,7 @@ OakSpeech:
 	call IntroDisplayPicCenteredOrUpperRight
 	call FadeInIntroPic
 	ld hl, IntroduceRivalText
-	call PrintText
+	call PrintText_Standalone
 	call ChooseRivalName
 .skipChoosingNames
 	call GBFadeOutToWhite
@@ -104,7 +108,7 @@ OakSpeech:
 	and a
 	jr nz, .next
 	ld hl, OakSpeechText3
-	call PrintText
+	call PrintText_Standalone
 .next
 	ldh a, [hLoadedROMBank]
 	push af
@@ -193,19 +197,19 @@ IntroFadePalettes:
 	db %11100100
 
 MovePicLeft:
-	ld a, 119
-	ldh [rWX], a
+	ld a, -160
+	ldh [hSCX], a
 	call DelayFrame
 
 	ld a, %11100100
 	ldh [rBGP], a
 .next
 	call DelayFrame
-	ldh a, [rWX]
-	sub 8
-	cp $FF
+	ldh a, [hSCX]
+	add 8
+	cp 8
 	ret z
-	ldh [rWX], a
+	ldh [hSCX], a
 	jr .next
 
 DisplayPicCenteredOrUpperRight:

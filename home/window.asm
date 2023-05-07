@@ -280,9 +280,27 @@ AutoTextBoxDrawingCommon::
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a ; make DisplayTextID wait for button press
 	ret
 
+PrintText_Standalone::
+; Print text hl at (1, 14).
+	push hl
+; move tilemap to BG layer
+	ld b, HIGH(vBGMap0)
+	call CopyScreenTileBufferToVRAM
+; show text box
+	ld a, MESSAGE_BOX
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	call UpdateSprites
+	call ScrollWindowUpTextBox
+	call Delay3
+	pop hl
+	call PrintText_NoCreatingTextBox
+	jp ScrollWindowDownTextBox
+	
 PrintText::
 ; Print text hl at (1, 14).
 	push hl
+; show text box
 	ld a, MESSAGE_BOX
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
@@ -290,5 +308,32 @@ PrintText::
 	call Delay3
 	pop hl
 PrintText_NoCreatingTextBox::
-	bccoord 1, 15
+	bccoord 1, 1
 	jp TextCommandProcessor
+
+ScrollWindowUpTextBox::
+; animate up
+	ld a, $90
+	ldh [hWY], a
+.bringUpWindow
+	call DelayFrame
+	ldh a, [hWY]
+	dec a
+	dec a
+	cp $70
+	ldh [hWY], a
+	jr nz, .bringUpWindow
+	ret
+
+ScrollWindowDownTextBox::
+	ld a, $70
+	ldh [hWY], a
+.bringDownWindow
+	call DelayFrame
+	ldh a, [hWY]
+	inc a
+	inc a
+	cp $90
+	ldh [hWY], a
+	jr nz, .bringDownWindow
+	ret

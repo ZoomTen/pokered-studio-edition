@@ -75,7 +75,7 @@ PlaceNextChar::
 	cp "<LINE>"
 	jr nz, .NotLine
 	pop hl
-	hlcoord 1, 16
+	hlcoord 1, 2
 	push hl
 	jp NextChar
 
@@ -206,12 +206,12 @@ PromptText::
 	cp LINK_STATE_BATTLING
 	jp z, .ok
 	ld a, "▼"
-	ldcoord_a 18, 16
+	ldcoord_a 18, 2
 .ok
 	call ProtectedDelay3
 	call ManualTextScroll
 	ld a, " "
-	ldcoord_a 18, 16
+	ldcoord_a 18, 2
 
 DoneText::
 	pop hl
@@ -225,16 +225,16 @@ DoneText::
 Paragraph::
 	push de
 	ld a, "▼"
-	ldcoord_a 18, 16
+	ldcoord_a 18, 2
 	call ProtectedDelay3
 	call ManualTextScroll
-	hlcoord 1, 15
+	hlcoord 1, 1
 	lb bc, 2, 18
 	call ClearScreenArea
 	ld c, 20
 	call DelayFrames
 	pop de
-	hlcoord 1, 15
+	hlcoord 1, 1
 	jp NextChar
 
 PageChar::
@@ -256,17 +256,17 @@ PageChar::
 
 _ContText::
 	ld a, "▼"
-	ldcoord_a 18, 16
+	ldcoord_a 18, 2
 	call ProtectedDelay3
 	push de
 	call ManualTextScroll
 	pop de
 	ld a, " "
-	ldcoord_a 18, 16
+	ldcoord_a 18, 2
 _ContTextNoPause::
 	push de
 	call ScrollTextUpOneLine
-	hlcoord 1, 16
+	hlcoord 1, 2
 	pop de
 	jp NextChar
 
@@ -275,8 +275,8 @@ _ContTextNoPause::
 ; first time, copy the two rows of text to the "in between" rows that are usually emtpy
 ; second time, copy the bottom row of text into the top row of text
 ScrollTextUpOneLine::
-	hlcoord 1, 16 ; top row of text
-	decoord 1, 15 ; empty line above text
+	hlcoord 1, 2 ; top row of text
+	decoord 1, 1 ; empty line above text
 	ld b, SCREEN_WIDTH - 1
 .copyText
 	ld a, [hli]
@@ -284,7 +284,7 @@ ScrollTextUpOneLine::
 	inc de
 	dec b
 	jr nz, .copyText
-	hlcoord 1, 16
+	hlcoord 1, 2
 	ld a, " "
 	ld b, SCREEN_WIDTH - 2
 .clearText

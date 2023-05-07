@@ -24,7 +24,7 @@ DisplayTextIDInit::
 	jr .drawTextBoxBorder
 ; if text ID is not 0 (i.e. not the start menu) then do a standard dialogue text box
 .notStartMenu
-	hlcoord 0, 14
+	hlcoord 0, 0
 	lb bc, 2, $12
 .drawTextBoxBorder
 	call TextBoxBorder
@@ -70,8 +70,16 @@ DisplayTextIDInit::
 	jr nz, .spriteStandStillLoop
 	ld b, $9c ; window background address
 	call CopyScreenTileBufferToVRAM ; transfer background in WRAM to VRAM
+	ldh a, [hSpriteIndexOrTextID] ; text ID (or sprite ID)
+	and a ; start menu
+	jr z, .normal
+; dialog boxes
+	call ScrollWindowUpTextBox
+	jr .done
+.normal
 	xor a
 	ldh [hWY], a ; put the window on the screen
+.done
 	call LoadFontTilePatterns
 	ld a, $01
 	ldh [hAutoBGTransferEnabled], a ; enable continuous WRAM to VRAM transfer each V-blank

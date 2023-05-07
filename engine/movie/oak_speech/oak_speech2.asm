@@ -1,4 +1,10 @@
 ChoosePlayerName:
+	hlcoord 0, 0
+	lb bc, 4, 20
+	call ClearScreenArea
+	call Delay3
+	xor a
+	ld [hWY], a
 	call OakSpeechSlidePicRight
 	ld de, DefaultNamesPlayer
 	call DisplayIntroNameTextBox
@@ -25,13 +31,19 @@ ChoosePlayerName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, YourNameIsText
-	jp PrintText
+	jp PrintText_Standalone
 
 YourNameIsText:
 	text_far _YourNameIsText
 	text_end
 
 ChooseRivalName:
+	hlcoord 0, 0
+	lb bc, 4, 20
+	call ClearScreenArea
+	call Delay3
+	xor a
+	ld [hWY], a
 	call OakSpeechSlidePicRight
 	ld de, DefaultNamesRival
 	call DisplayIntroNameTextBox
@@ -58,7 +70,7 @@ ChooseRivalName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, HisNameIsText
-	jp PrintText
+	jp PrintText_Standalone
 
 HisNameIsText:
 	text_far _HisNameIsText
