@@ -33,6 +33,13 @@ PrepareOakSpeech:
 	ld bc, NAME_LENGTH
 	jp CopyData
 
+OakSpeech_SetupTransferDest::
+	ld a, HIGH(vBGMap0)
+	ldh [hAutoBGTransferDest + 1], a
+	ld a, $90
+	ldh [hWY], a
+	ret
+	
 OakSpeech:
 	ld a, SFX_STOP_ALL_MUSIC
 	call PlaySound
@@ -40,6 +47,7 @@ OakSpeech:
 	ld c, a
 	ld a, MUSIC_ROUTES2
 	call PlayMusic
+	call OakSpeech_SetupTransferDest
 	call ClearScreen
 	call LoadTextBoxTilePatterns
 	call PrepareOakSpeech
@@ -66,30 +74,29 @@ OakSpeech:
 	call PrintText_Standalone
 	call GBFadeOutToWhite
 	call ClearScreen
+	call OakSpeech_SetupTransferDest
 	ld a, NIDORINO
 	ld [wd0b5], a
 	ld [wcf91], a
 	call GetMonHeader
 	hlcoord 6, 4
 	call LoadFlippedFrontSpriteByMonIndex
-	ld b, HIGH(vBGMap0)
-	call CopyScreenTileBufferToVRAM
 	call MovePicLeft
 	ld hl, OakSpeechText2
 	call PrintText_Standalone
 	call GBFadeOutToWhite
 	call ClearScreen
+	call OakSpeech_SetupTransferDest
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $00
 	call IntroDisplayPicCenteredOrUpperRight
-	ld b, HIGH(vBGMap0)
-	call CopyScreenTileBufferToVRAM
 	call MovePicLeft
 	ld hl, IntroducePlayerText
 	call PrintText_Standalone
 	call ChoosePlayerName
 	call GBFadeOutToWhite
 	call ClearScreen
+	call OakSpeech_SetupTransferDest
 	ld de, Rival1Pic
 	lb bc, BANK(Rival1Pic), $00
 	call IntroDisplayPicCenteredOrUpperRight
@@ -119,6 +126,7 @@ OakSpeech:
 	ld [MBC1RomBank], a
 	ld c, 4
 	call DelayFrames
+	call OakSpeech_ClearTextboxAndResetW
 	ld de, RedSprite
 	ld hl, vSprites
 	lb bc, BANK(RedSprite), $0C

@@ -1,10 +1,14 @@
-ChoosePlayerName:
+OakSpeech_ClearTextboxAndResetW:
 	hlcoord 0, 0
 	lb bc, 4, 20
 	call ClearScreenArea
 	call Delay3
 	xor a
 	ld [hWY], a
+	ret
+
+ChoosePlayerName:
+	call OakSpeech_ClearTextboxAndResetW
 	call OakSpeechSlidePicRight
 	ld de, DefaultNamesPlayer
 	call DisplayIntroNameTextBox
