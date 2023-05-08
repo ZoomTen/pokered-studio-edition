@@ -228,11 +228,13 @@ Paragraph::
 	ldcoord_a 18, 2
 	call ProtectedDelay3
 	call ManualTextScroll
+	call ScrollWindowDownTextBox
 	hlcoord 1, 1
 	lb bc, 2, 18
 	call ClearScreenArea
-	ld c, 20
-	call DelayFrames
+	call ScrollWindowUpTextBox
+	;ld c, 20
+	;call DelayFrames
 	pop de
 	hlcoord 1, 1
 	jp NextChar
