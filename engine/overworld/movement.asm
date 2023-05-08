@@ -531,6 +531,18 @@ CheckSpriteAvailability:
 .skipXVisibilityTest
 ; make the sprite invisible if a text box is in front of it
 ; $5F is the maximum number for map tiles
+	ld a, [wIsTextBoxOpened]
+	and a
+	jr z, .checkTextboxNormally
+	ld h, HIGH(wSpriteStateData1)
+	ldh a, [hCurrentSpriteOffset]
+	add SPRITESTATEDATA1_YPIXELS
+	ld l, a
+	ld a, [hli]     ; x#SPRITESTATEDATA1_YPIXELS
+	cp $60
+	jr nc, .spriteInvisible
+	jr .spriteVisible
+.checkTextboxNormally
 	call GetTileSpriteStandsOn
 	ld d, MAP_TILESET_SIZE
 	ld a, [hli]

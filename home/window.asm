@@ -281,6 +281,10 @@ AutoTextBoxDrawingCommon::
 	ret
 
 PrintText_Standalone::
+	;ldh a, [hAutoBGTransferDest + 1]
+	;push af
+	ld a, HIGH(vBGMap1)
+	ldh [hAutoBGTransferDest + 1], a
 ; Print text hl at (1, 14).
 	push hl
 ; move tilemap to BG layer
@@ -296,6 +300,9 @@ PrintText_Standalone::
 	pop hl
 	call PrintText_NoCreatingTextBox
 	jp ScrollWindowDownTextBox
+	;pop af
+	;ldh [hAutoBGTransferDest + 1], a
+	;ret
 	
 PrintText::
 ; Print text hl at (1, 14).
@@ -312,6 +319,9 @@ PrintText_NoCreatingTextBox::
 	jp TextCommandProcessor
 
 ScrollWindowUpTextBox::
+	ld a, 1
+	ld [wIsTextBoxOpened], a
+	call UpdateSprites
 ; animate up
 	ld a, $90
 	ldh [hWY], a
@@ -336,4 +346,7 @@ ScrollWindowDownTextBox::
 	cp $90
 	ldh [hWY], a
 	jr nz, .bringDownWindow
+	xor a
+	ld [wIsTextBoxOpened], a
+	call UpdateSprites
 	ret
