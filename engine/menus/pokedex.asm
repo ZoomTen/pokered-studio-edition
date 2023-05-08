@@ -396,6 +396,9 @@ IsPokemonBitSet:
 ShowPokedexData:
 	call GBPalWhiteOutWithDelay3
 	call ClearScreen
+	xor a
+	ld [hWY], a
+	ld [wIsTextBoxOpened], a
 	call UpdateSprites
 	callfar LoadPokedexTilePatterns ; load pokedex tiles
 

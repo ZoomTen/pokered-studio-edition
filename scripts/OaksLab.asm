@@ -1,8 +1,7 @@
 OaksLab_Script:
 	CheckEvent EVENT_PALLET_AFTER_GETTING_POKEBALLS_2
 	call nz, OaksLabScript_1d076
-	ld a, TRUE
-	ld [wAutoTextBoxDrawingControl], a
+	call EnableAutoTextBoxDrawing
 	xor a
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ld hl, OaksLab_ScriptPointers
@@ -859,6 +858,11 @@ OaksLabScript_1d157:
 	call ReloadMapData
 	ld c, 10
 	call DelayFrames
+; redisplay text box
+	ld a, MESSAGE_BOX
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	call ScrollWindowUpTextBox
 	ld a, [wSpriteIndex]
 	cp $2
 	jr z, OaksLabLookAtCharmander
