@@ -6,6 +6,7 @@ Drumkits:
 	dw Drumkit4
 	dw Drumkit5
 	dw Drumkit6
+	dw Drumkit_GBT
 
 Drumkit0:
 	dw Drum00
@@ -105,7 +106,51 @@ Drumkit6:
 	dw Snare9
 	dw Snare9
 	dw Snare9
+Drumkit_GBT:
+	dw Drum00
+	dw DrumxP1
+	dw DrumxP2
+	dw DrumxP3
+	dw DrumxP4
+	dw DrumxP5
+	dw DrumxP6
+	dw DrumxP7
+	dw DrumxP8
+	dw DrumxWB
+	dw DrumxWD
+	dw DrumxWF
+	dw DrumxWG
+	dw DrumxWH
+	dw DrumxWA
+	dw DrumxWC
+	dw DrumxWE
 
+MACRO gbt_drum
+	; \1 = frequency
+	; \2 = length
+	noise_note \2, 15, 1, \1
+	noise_note 1, 0, 0, 0
+	sound_ret
+ENDM
+
+DrumxP1: gbt_drum $5F, 1
+DrumxP2: gbt_drum $5B, 1
+DrumxP3: gbt_drum $4B, 1
+DrumxP4: gbt_drum $2F, 1
+DrumxP5: gbt_drum $3B, 1
+DrumxP6: gbt_drum $58, 1
+DrumxP7: gbt_drum $1F, 1
+DrumxP8: gbt_drum $0F, 1
+
+DrumxWB: gbt_drum $90, 3
+DrumxWD: gbt_drum $80, 3
+DrumxWF: gbt_drum $70, 3
+DrumxWG: gbt_drum $50, 3
+DrumxWH: gbt_drum $00, 3
+DrumxWA: gbt_drum $67, 3
+DrumxWC: gbt_drum $63, 3
+DrumxWE: gbt_drum $53, 3
+	
 Drum00:
 	noise_note 32, 1, 1, 0
 	sound_ret

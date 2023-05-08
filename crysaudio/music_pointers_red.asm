@@ -30,7 +30,7 @@ Music:
 	dba Music_DefeatedTrainer
 	dba Music_DefeatedWildMon
 	dba Music_DefeatedGymLeader
-	dba Music_RBYTitleScreen
+	dba Music_GBTTitleScreen
 	dba Music_RBYCredits
 	dba Music_RBYHallOfFame
 	dba Music_OaksLab

@@ -38,6 +38,8 @@ RGBFIX  ?= $(RGBDS)rgbfix
 RGBGFX  ?= $(RGBDS)rgbgfx
 RGBLINK ?= $(RGBDS)rgblink
 
+PYTHON ?= python3
+
 
 ### Build targets
 
@@ -76,6 +78,7 @@ tidy:
 	      $(pokeblue_vc_obj) \
 	      $(pokeblue_debug_obj) \
 	      rgbdscheck.o
+	$(RM) crysaudio/music/shit/*.asm
 	$(MAKE) clean -C tools/
 
 compare: $(roms) $(patches)
@@ -175,6 +178,10 @@ gfx/tilesets/%.2bpp: tools/gfx += --trim-whitespace
 gfx/tilesets/reds_house.2bpp: tools/gfx += --preserve=0x48
 
 gfx/trade/game_boy.2bpp: tools/gfx += --remove-duplicates
+
+crysaudio/music/shit/%.asm: crysaudio/music/shit/%.mod
+	$(PYTHON) tools/mod2pret.py $< > $@
+	
 
 
 ### Catch-all graphics rules
