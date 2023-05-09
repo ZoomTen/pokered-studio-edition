@@ -51,10 +51,35 @@ EmotionBubble:
 	add $8
 	ld c, a
 
-	ld de, EmotionBubblesOAM
+; reuse wEmotionBubbleSpriteIndex as indicator
 	xor a
-	call WriteOAMBlock
-	ld c, 60
+	ld [wEmotionBubbleSpriteIndex], a
+	
+	ld hl, EmotionBubbleYAnimOffsets
+.do_animation
+	push bc
+		ld a, [hli]
+		cp $80  ; sentinel value
+		jr nz, .not_done
+	; done
+		ld a, 1
+		ld [wEmotionBubbleSpriteIndex], a
+		jr .put_to_oam
+.not_done
+		add b
+		ld b, a
+.put_to_oam
+		xor a
+		ld de, EmotionBubblesOAM
+		push hl
+			call WriteOAMBlock
+		pop hl
+		call DelayFrame
+	pop bc
+	ld a, [wEmotionBubbleSpriteIndex]
+	and a
+	jr z, .do_animation
+	ld c, 45
 	call DelayFrames
 	pop af
 	ld [wUpdateSpritesEnabled], a
@@ -70,6 +95,11 @@ EmotionBubblesPointerTable:
 EmotionBubblesOAM:
 	dbsprite  0, -1,  0,  0, $f9, 0
 	dbsprite  0, -1,  0,  2, $fb, 0
+
+EmotionBubbleYAnimOffsets:
+	db 0, -1, -2, -3, -4, -5, -6, -7
+	db -6, -5, -4, -3, -2, -1, 0
+	db $80  ; terminator
 
 EmotionBubbles:
 ShockEmote:    INCBIN "gfx/emotes/shock.2bpp"
