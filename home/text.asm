@@ -224,10 +224,7 @@ DoneText::
 
 Paragraph::
 	push de
-	ld a, "▼"
-	ldcoord_a 18, 2
-	call ProtectedDelay3
-	call ManualTextScroll
+	call ManualTextScroll_NoBlink
 	call ScrollWindowDownTextBox
 	hlcoord 1, 1
 	lb bc, 2, 18
@@ -294,7 +291,7 @@ ScrollTextUpOneLine::
 	dec b
 	jr nz, .clearText
 
-	ld b, 5
+	ld b, 3
 .WaitFrame
 	call DelayFrame
 	dec b

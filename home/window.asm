@@ -241,7 +241,7 @@ HandleDownArrowBlinkTiming::
 	ld [hl], a
 	ld a, $ff
 	ldh [hDownArrowBlinkCount1], a
-	ld a, $06
+	ld a, $01
 	ldh [hDownArrowBlinkCount2], a
 	ret
 .downArrowOff
@@ -257,7 +257,7 @@ HandleDownArrowBlinkTiming::
 	dec a
 	ldh [hDownArrowBlinkCount2], a
 	ret nz
-	ld a, $06
+	ld a, $01
 	ldh [hDownArrowBlinkCount2], a
 	ld a, "▼"
 	ld [hl], a

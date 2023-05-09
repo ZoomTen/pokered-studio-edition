@@ -59,7 +59,7 @@ WaitForTextScrollButtonPress::
 	push af
 	xor a
 	ldh [hDownArrowBlinkCount1], a
-	ld a, $6
+	ld a, $1
 	ldh [hDownArrowBlinkCount2], a
 .loop
 	push hl
@@ -91,6 +91,21 @@ ManualTextScroll::
 	ret
 	;ld a, SFX_PRESS_AB
 	;jp PlaySound
+.inLinkBattle
+	ld c, 65
+	jp DelayFrames
+
+ManualTextScroll_NoBlink::
+	ld a, [wLinkState]
+	cp LINK_STATE_BATTLING
+	jr z, .inLinkBattle
+.loop
+	call JoypadLowSensitivity
+	predef CableClub_Run
+	ldh a, [hJoy5]
+	and A_BUTTON | B_BUTTON
+	jr z, .loop
+	ret
 .inLinkBattle
 	ld c, 65
 	jp DelayFrames
