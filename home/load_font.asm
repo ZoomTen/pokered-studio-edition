@@ -7,12 +7,12 @@ LoadFontTilePatterns::
 	ld de, vFont
 	ld bc, FontGraphicsEnd - FontGraphics
 	ld a, BANK(FontGraphics)
-	jp FarCopyDataDouble ; if LCD is off, transfer all at once
+	jp FarCopyData ; if LCD is off, transfer all at once
 .on
 	ld de, FontGraphics
 	ld hl, vFont
-	lb bc, BANK(FontGraphics), (FontGraphicsEnd - FontGraphics) / $8
-	jp CopyVideoDataDouble ; if LCD is on, transfer during V-blank
+	lb bc, BANK(FontGraphics), (FontGraphicsEnd - FontGraphics) / $10
+	jp CopyVideoData ; if LCD is on, transfer during V-blank
 
 LoadTextBoxTilePatterns::
 	ldh a, [rLCDC]
