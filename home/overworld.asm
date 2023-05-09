@@ -1254,8 +1254,8 @@ CollisionCheckOnLand::
 	bit 0, [hl]
 	jr nz, .setCarry
 
-	ld a, SFX_COLLISION
-	call PlaySound ; play collision sound (if it's not already playing)
+	;ld a, SFX_COLLISION
+	;call PlaySound ; play collision sound (if it's not already playing)
 .setCarry
 	scf
 	ret
@@ -1940,8 +1940,8 @@ CollisionCheckOnWater::
 	bit 0, [hl]
 	jr nz, .setCarry
 
-	ld a, SFX_COLLISION
-	call PlaySound ; play collision sound (if it's not already playing)
+	;ld a, SFX_COLLISION
+	;call PlaySound ; play collision sound (if it's not already playing)
 .setCarry
 	scf
 	jr .done
