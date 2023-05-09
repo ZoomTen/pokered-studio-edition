@@ -19,7 +19,6 @@ EnterMap::
 	bit 5, [hl] ; did a battle happen immediately before this?
 	res 5, [hl] ; unset the "battle just happened" flag
 	call z, ResetUsingStrengthOutOfBattleBit
-	call GBFadeInFromWhite
 	ld hl, wd732
 	ld a, [hl]
 	and 1 << 4 | 1 << 3 ; fly warp or dungeon warp
@@ -37,6 +36,7 @@ EnterMap::
 	xor a
 	ld [wJoyIgnore], a
 	call UpdateSprites
+	call GBFadeInFromWhite
 
 OverworldLoop::
 OverworldLoopLessDelay::
@@ -695,7 +695,7 @@ PlayMapChangeSound::
 .didNotGoThroughDoor
 	ld a, SFX_GO_OUTSIDE
 .playSound
-	call PlaySound
+	;call PlaySound
 	ld a, [wMapPalOffset]
 	and a
 	ret nz
