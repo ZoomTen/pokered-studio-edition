@@ -321,23 +321,40 @@ PrintText_NoCreatingTextBox::
 ScrollWindowUpTextBox::
 	ld a, 1
 	ld [wIsTextBoxOpened], a
+	ld a, 4
+	ld [wWinTilesToScroll], a
+; fallthru
+ScrollWindowUp::
 	call UpdateSprites
 ; animate up
 	ld a, $90
 	ldh [hWY], a
+; calculate final position based on number of tiles to move
+	push bc
+		ld a, [wWinTilesToScroll]
+		ld c, a
+; c * 8
+		sla c
+		sla c
+		sla c
+		ld a, $90 ; max
+		sub c
+		ld c, a
 .bringUpWindow
-	call DelayFrame
-	ldh a, [hWY]
-	dec a
-	dec a
-	cp $70
-	ldh [hWY], a
-	jr nz, .bringUpWindow
+		push bc
+			call DelayFrame
+		pop bc
+		ldh a, [hWY]
+		dec a
+		dec a
+		cp c
+		ldh [hWY], a
+		jr nz, .bringUpWindow
+	pop bc
 	ret
 
+ScrollWindowDown::
 ScrollWindowDownTextBox::
-	ld a, $70
-	ldh [hWY], a
 .bringDownWindow
 	call DelayFrame
 	ldh a, [hWY]

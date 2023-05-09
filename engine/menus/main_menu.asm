@@ -1,4 +1,6 @@
 MainMenu:
+	call LoadTextBoxTilePatterns
+	call LoadFontTilePatterns
 ; Check save file
 	call InitOptions
 	xor a
@@ -11,8 +13,6 @@ MainMenu:
 	predef LoadSAV
 
 .mainMenuLoop
-	ld c, 20
-	call DelayFrames
 	xor a ; LINK_STATE_NONE
 	ld [wLinkState], a
 	ld hl, wPartyAndBillsPCSavedMenuItem
@@ -25,8 +25,9 @@ MainMenu:
 	res 6, [hl]
 	call ClearScreen
 	call RunDefaultPaletteCommand
-	call LoadTextBoxTilePatterns
-	call LoadFontTilePatterns
+	ld hl, hUILayoutFlags
+	set 1, [hl]
+	set 2, [hl]
 	ld hl, wd730
 	set 6, [hl]
 	ld a, [wSaveFileStatus]
@@ -34,21 +35,27 @@ MainMenu:
 	jr z, .noSaveFile
 ; there's a save file
 	hlcoord 0, 0
-	ld b, 6
-	ld c, 13
+	ld b, 3
+	ld c, 18
 	call TextBoxBorder
-	hlcoord 2, 2
+	hlcoord 2, 1
 	ld de, ContinueText
 	call PlaceString
+	ld a, 5
+	ld [wWinTilesToScroll], a
+	call ScrollWindowUp
 	jr .next2
 .noSaveFile
 	hlcoord 0, 0
-	ld b, 4
-	ld c, 13
+	ld b, 2
+	ld c, 18
 	call TextBoxBorder
-	hlcoord 2, 2
+	hlcoord 2, 1
 	ld de, NewGameText
 	call PlaceString
+	ld a, 4
+	ld [wWinTilesToScroll], a
+	call ScrollWindowUp
 .next2
 	ld hl, wd730
 	res 6, [hl]
@@ -59,7 +66,6 @@ MainMenu:
 	ld [wMenuJoypadPollCount], a
 	inc a
 	ld [wTopMenuItemX], a
-	inc a
 	ld [wTopMenuItemY], a
 	ld a, A_BUTTON | B_BUTTON | START
 	ld [wMenuWatchedKeys], a
@@ -67,9 +73,7 @@ MainMenu:
 	ld [wMaxMenuItem], a
 	call HandleMenuInput
 	bit BIT_B_BUTTON, a
-	jp nz, DisplayTitleScreen ; if so, go back to the title screen
-	ld c, 20
-	call DelayFrames
+	jp nz, .jumpToTitle
 	ld a, [wCurrentMenuItem]
 	ld b, a
 	ld a, [wSaveFileStatus]
@@ -83,7 +87,12 @@ MainMenu:
 	and a
 	jr z, .choseContinue
 	cp 1
-	jp z, StartNewGame
+	jp z, .jumpToNewGame
+	call ScrollWindowDown
+; redisplay window
+	xor a
+	ldh [hWY], a
+;--
 	call DisplayOptionMenu
 	ld a, 1
 	ld [wOptionsInitialized], a
@@ -102,15 +111,14 @@ MainMenu:
 	bit 0, a
 	jr nz, .pressedA
 	bit 1, a
-	jp nz, .mainMenuLoop ; pressed B
+	jp nz, .jumpToMenu ; pressed B
 	jr .inputLoop
 .pressedA
+	call ScrollWindowDown
 	call GBPalWhiteOutWithDelay3
 	call ClearScreen
 	ld a, PLAYER_DIR_DOWN
 	ld [wPlayerDirection], a
-	ld c, 10
-	call DelayFrames
 	ld a, [wNumHoFTeams]
 	and a
 	jp z, SpecialEnterMap
@@ -123,6 +131,15 @@ MainMenu:
 	set 2, [hl] ; fly warp or dungeon warp
 	call SpecialWarpIn
 	jp SpecialEnterMap
+.jumpToTitle
+	call ScrollWindowDown
+	jp DisplayTitleScreen
+.jumpToMenu
+	call ScrollWindowDown
+	jp .mainMenuLoop
+.jumpToNewGame
+	call ScrollWindowDown
+	jp StartNewGame
 
 InitOptions:
 	ld a, TEXT_DELAY_FAST
@@ -333,41 +350,46 @@ SpecialEnterMap::
 	jp EnterMap
 
 ContinueText:
-	db "CONTINUE"
+	db "Continue"
 	next ""
 	; fallthrough
 
 NewGameText:
-	db   "NEW GAME"
-	next "OPTION@"
+	db   "New Game"
+	next "Settings@"
 
 CableClubOptionsText:
-	db   "TRADE CENTER"
-	next "COLOSSEUM"
-	next "CANCEL@"
+	db   "Trade Center"
+	next "Colloseum"
+	next "Cancel@"
 
 DisplayContinueGameInfo:
+	call ScrollWindowDown
 	xor a
 	ldh [hAutoBGTransferEnabled], a
-	hlcoord 4, 7
-	ld b, 8
-	ld c, 14
+	hlcoord 0, 0
+	ld b, 4
+	ld c, 18
 	call TextBoxBorder
-	hlcoord 5, 9
+	hlcoord 1, 1
 	ld de, SaveScreenInfoText
 	call PlaceString
-	hlcoord 12, 9
+	hlcoord 12, 1
 	ld de, wPlayerName
 	call PlaceString
-	hlcoord 17, 11
+	hlcoord 17, 2
 	call PrintNumBadges
-	hlcoord 16, 13
+	hlcoord 16, 3
 	call PrintNumOwnedMons
-	hlcoord 13, 15
+	hlcoord 13, 4
 	call PrintPlayTime
 	ld a, 1
 	ldh [hAutoBGTransferEnabled], a
-	ld c, 30
+	call Delay3
+	ld a, 6
+	ld [wWinTilesToScroll], a
+	call ScrollWindowUp
+	ld c, 60
 	jp DelayFrames
 
 PrintSaveScreenText:
@@ -420,7 +442,7 @@ PrintPlayTime:
 	ld de, wPlayTimeHours
 	lb bc, 1, 3
 	call PrintNumber
-	ld [hl], $6d
+	ld [hl], "<COLON>"
 	inc hl
 	ld de, wPlayTimeMinutes
 	lb bc, LEADING_ZEROES | 1, 2
@@ -433,6 +455,12 @@ SaveScreenInfoText:
 	next "TIME@"
 
 DisplayOptionMenu:
+; reset 
+	ld hl, hUILayoutFlags
+	res 1, [hl]
+	res 2, [hl]
+; --
+	call GBPalWhiteOut
 	hlcoord 0, 0
 	ld b, 3
 	ld c, 18
@@ -457,6 +485,12 @@ DisplayOptionMenu:
 	hlcoord 2, 16
 	ld de, OptionMenuCancelText
 	call PlaceString
+	
+	ld a, $01
+	ldh [hAutoBGTransferEnabled], a ; enable auto background transfer
+	call Delay3
+	call GBFadeInFromWhite
+	
 	xor a
 	ld [wCurrentMenuItem], a
 	ld [wLastMenuItem], a
@@ -468,8 +502,6 @@ DisplayOptionMenu:
 	call SetCursorPositionsFromOptions
 	ld a, [wOptionsTextSpeedCursorX] ; text speed cursor X coordinate
 	ld [wTopMenuItemX], a
-	ld a, $01
-	ldh [hAutoBGTransferEnabled], a ; enable auto background transfer
 	call Delay3
 .loop
 	call PlaceMenuCursor
@@ -492,6 +524,9 @@ DisplayOptionMenu:
 .exitMenu
 	ld a, SFX_PRESS_AB
 	call PlaySound
+	call GBFadeOutToWhite
+	call ClearScreen
+	call LoadGBPal
 	ret
 .eraseOldMenuCursor
 	ld [wTopMenuItemX], a
