@@ -25,7 +25,7 @@ VBlank::
 	call RedrawRowOrColumn
 	call VBlankCopy
 	call VBlankCopyDouble
-	call UpdateMovingBgTiles
+	;call UpdateMovingBgTiles
 	call hDMARoutine
 	ld a, BANK(PrepareOAMData)
 	ldh [hLoadedROMBank], a
