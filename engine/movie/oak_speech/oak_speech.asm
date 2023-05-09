@@ -146,10 +146,8 @@ OakSpeech:
 ;	ld [wAudioROMBank], a
 ;	ld [wAudioSavedROMBank], a
 
-	ld a, 10
-	ld [wMusicFade], a
 	xor a
-	ld [wMusicFadeID], a
+	call StopMusic
 
 	pop af
 	ldh [hLoadedROMBank], a
