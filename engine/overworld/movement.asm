@@ -97,7 +97,7 @@ UpdatePlayerSprite:
 	cp c
 	ld a, 0
 	jr nz, .next2
-	ld a, OAM_BEHIND_BG
+	;ld a, OAM_BEHIND_BG
 .next2
 	ld [wSpritePlayerStateData2GrassPriority], a
 	ret
