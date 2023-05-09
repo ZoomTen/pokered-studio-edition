@@ -1,3 +1,5 @@
+# Code by NardJ:
+# https://github.com/NardJ/ModTrack-for-Python
 
 def nibbles(bt):
 	h = bt >> 4

@@ -169,11 +169,9 @@ SECTION "RBY Songs 1", ROMX
 
 INCLUDE "crysaudio/music/RBY/pkmnhealed.asm"
 INCLUDE "crysaudio/music/RBY/routes1.asm"
-INCLUDE "crysaudio/music/shit/routes2.asm"
 INCLUDE "crysaudio/music/RBY/routes3.asm"
 INCLUDE "crysaudio/music/RBY/routes4.asm"
 INCLUDE "crysaudio/music/RBY/indigoplateau.asm"
-INCLUDE "crysaudio/music/shit/pallettown.asm"
 INCLUDE "crysaudio/music/RBY/unusedsong.asm"
 INCLUDE "crysaudio/music/RBY/cities1.asm"
 INCLUDE "crysaudio/music/RBY/museumguy.asm"
@@ -193,7 +191,6 @@ INCLUDE "crysaudio/music/RBY/pokecenter.asm"
 SECTION "RBY Songs 2", ROMX
 
 INCLUDE "crysaudio/music/RBY/gymleaderbattle.asm"
-INCLUDE "crysaudio/music/shit/trainerbattle.asm"
 INCLUDE "crysaudio/music/RBY/wildbattle.asm"
 INCLUDE "crysaudio/music/RBY/finalbattle.asm"
 INCLUDE "crysaudio/music/RBY/defeatedtrainer.asm"
@@ -214,9 +211,7 @@ INCLUDE "crysaudio/music/RBY/oakslab.asm"
 INCLUDE "crysaudio/music/RBY/pokemontower.asm"
 INCLUDE "crysaudio/music/RBY/silphco.asm"
 INCLUDE "crysaudio/music/RBY/meeteviltrainer.asm"
-INCLUDE "crysaudio/music/RBY/meetfemaletrainer.asm"
 INCLUDE "crysaudio/music/RBY/meetmaletrainer.asm"
-INCLUDE "crysaudio/music/shit/introbattle.asm"
 INCLUDE "crysaudio/music/RBY/surfing.asm"
 INCLUDE "crysaudio/music/RBY/jigglypuffsong.asm"
 INCLUDE "crysaudio/music/RBY/halloffame.asm"
@@ -225,6 +220,11 @@ INCLUDE "crysaudio/music/RBY/credits.asm"
 SECTION "GBT Player Styled Songs 1", ROMX
 
 INCLUDE "crysaudio/music/shit/titlescreen.asm"
+INCLUDE "crysaudio/music/shit/meetfemaletrainer.asm"
+INCLUDE "crysaudio/music/shit/introbattle.asm"
+INCLUDE "crysaudio/music/shit/routes2.asm"
+INCLUDE "crysaudio/music/shit/pallettown.asm"
+INCLUDE "crysaudio/music/shit/trainerbattle.asm"
 
 
 SECTION "Sound Effects", ROMX

@@ -9,6 +9,7 @@ if __name__ == "__main__":
 		
 	if module_loaded:
 		title = re.findall("[A-Za-z0-9_]+", modfile.songtitle)[0]
+		title = "Music_" + title
 		
 		loop_point = None
 		
