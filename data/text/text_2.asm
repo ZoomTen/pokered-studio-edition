@@ -577,8 +577,8 @@ _IndigoPlateauHQText::
 _RedBedroomSNESText::
 	text "<PLAYER> is"
 	line "playing the SNES!"
-	cont "...Okay!"
-	cont "It's time to go!"
+	para "...Okay!"
+	line "It's time to go!"
 	done
 
 _Route15UpstairsBinocularsText::
