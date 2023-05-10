@@ -522,6 +522,11 @@ DisplayOptionMenu:
 	cp 16 ; is the cursor on Cancel?
 	jr nz, .loop
 .exitMenu
+; normal
+	ld hl, hUILayoutFlags
+	set 1, [hl]
+	set 2, [hl]
+; --
 	ld a, SFX_PRESS_AB
 	call PlaySound
 	call GBFadeOutToWhite
