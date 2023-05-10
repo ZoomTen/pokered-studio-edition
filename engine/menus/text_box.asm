@@ -205,6 +205,13 @@ DoBuySellQuitMenu:
 ; hl = address where the text box border should be drawn
 DisplayTwoOptionMenu:
 	push hl
+		push bc
+		push hl
+			call ManualTextScroll_NoBlink
+			call ScrollWindowDown
+		pop hl
+		pop bc
+	
 	ld a, [wd730]
 	set 6, a ; no printing delay
 	ld [wd730], a
@@ -279,6 +286,9 @@ DisplayTwoOptionMenu:
 	call PlaceString
 	ld hl, wd730
 	res 6, [hl] ; turn on the printing delay
+	
+	call ScrollWindowUpTextBox
+	
 	ld a, [wTwoOptionMenuID]
 	cp NO_YES_MENU
 	jr nz, .notNoYesMenu
@@ -294,6 +304,7 @@ DisplayTwoOptionMenu:
 	bit 5, [hl]
 	set 5, [hl] ; don't play sound when A or B is pressed in menu
 	pop hl
+	
 .noYesMenuInputLoop
 	call HandleMenuInput
 	bit BIT_B_BUTTON, a
@@ -321,7 +332,6 @@ DisplayTwoOptionMenu:
 	ld [wMenuExitMethod], a
 	ld c, 15
 	call DelayFrames
-	call TwoOptionMenu_RestoreScreenTiles
 	and a
 	ret
 .choseSecondMenuItem
@@ -332,7 +342,6 @@ DisplayTwoOptionMenu:
 	ld [wMenuExitMethod], a
 	ld c, 15
 	call DelayFrames
-	call TwoOptionMenu_RestoreScreenTiles
 	scf
 	ret
 

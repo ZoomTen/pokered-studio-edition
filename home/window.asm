@@ -358,12 +358,22 @@ ScrollWindowDownTextBox::
 .bringDownWindow
 	call DelayFrame
 	ldh a, [hWY]
-	inc a
-	inc a
 	cp $90
+	jr z, .done
+	inc a
+	inc a
 	ldh [hWY], a
-	jr nz, .bringDownWindow
+	jr .bringDownWindow
+.done
 	xor a
 	ld [wIsTextBoxOpened], a
 	call UpdateSprites
 	ret
+
+HideWindow::
+; for stuff that calls ScrollWindowDown
+; immediately after
+	ld a, $90
+	ldh [hWY], a
+	ret
+	

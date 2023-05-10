@@ -50,6 +50,7 @@ _AddPartyMon::
 	ld a, NAME_MON_SCREEN
 	ld [wNamingScreenType], a
 	predef AskName
+	call HideWindow
 .skipNaming
 	ld hl, wPartyMons
 	ld a, [wMonDataLocation]

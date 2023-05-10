@@ -1,5 +1,5 @@
 AskName:
-	call SaveScreenTilesToBuffer1
+	;call SaveScreenTilesToBuffer1
 	call GetPredefRegisters
 	push hl
 	ld a, [wIsInBattle]
@@ -13,11 +13,7 @@ AskName:
 	call GetMonName
 	ld hl, DoYouWantToNicknameText
 	call PrintText
-	hlcoord 14, 7
-	lb bc, 8, 15
-	ld a, TWO_OPTION_MENU
-	ld [wTextBoxID], a
-	call DisplayTextBoxID
+	call YesNoChoice
 	pop hl
 	ld a, [wCurrentMenuItem]
 	and a
@@ -35,7 +31,7 @@ AskName:
 	jr nz, .inBattle
 	call ReloadMapSpriteTilePatterns
 .inBattle
-	call LoadScreenTilesFromBuffer1
+	;call LoadScreenTilesFromBuffer1
 	pop hl
 	pop af
 	ld [wUpdateSpritesEnabled], a
@@ -85,8 +81,16 @@ DisplayNamingScreen:
 	push hl
 	ld hl, wd730
 	set 6, [hl]
-	call GBPalWhiteOutWithDelay3
+; reset 
+	ld hl, hUILayoutFlags
+	res 1, [hl]
+	res 2, [hl]
+; --
+	call GBFadeOutToWhite
 	call ClearScreen
+; show
+	xor a
+	ld [hWY], a
 	call UpdateSprites
 	ld b, SET_PAL_GENERIC
 	call RunPaletteCommand
@@ -115,9 +119,9 @@ DisplayNamingScreen:
 	ld [hli], a
 	ld [hli], a
 	ld [wAnimCounter], a
+	call GBFadeInFromWhite
 .selectReturnPoint
 	call PrintAlphabet
-	call GBPalNormal
 .ABStartReturnPoint
 	ld a, [wNamingScreenSubmitName]
 	and a
@@ -160,11 +164,16 @@ DisplayNamingScreen:
 	ld hl, wStringBuffer
 	ld bc, NAME_LENGTH
 	call CopyData
-	call GBPalWhiteOutWithDelay3
+	call GBFadeOutToWhite
 	call ClearScreen
 	call ClearSprites
+; normal
+	ld hl, hUILayoutFlags
+	set 1, [hl]
+	set 2, [hl]
+; --
 	call RunDefaultPaletteCommand
-	call GBPalNormal
+	call GBFadeInFromWhite
 	xor a
 	ld [wAnimCounter], a
 	ld hl, wd730

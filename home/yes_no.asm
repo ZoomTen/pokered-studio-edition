@@ -14,16 +14,16 @@ TwoOptionMenu:: ; unreferenced
 InitYesNoTextBoxParameters::
 	xor a ; YES_NO_MENU
 	ld [wTwoOptionMenuID], a
-	hlcoord 14, 7
-	lb bc, 8, 15
+	hlcoord 0, 0
+	lb bc, 1, 1
 	ret
 
 YesNoChoicePokeCenter::
 	call SaveScreenTilesToBuffer1
 	ld a, HEAL_CANCEL_MENU
 	ld [wTwoOptionMenuID], a
-	hlcoord 11, 6
-	lb bc, 8, 12
+	hlcoord 0, 0
+	lb bc, 1, 1
 	jr DisplayYesNoChoice
 
 WideYesNoChoice:: ; unused
@@ -37,4 +37,11 @@ DisplayYesNoChoice::
 	ld a, TWO_OPTION_MENU
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
-	jp LoadScreenTilesFromBuffer1
+	push af
+	call ScrollWindowDown
+; hack to instantly hide the textbox from view
+; if no other text is displayed after this
+	call HideWindow
+	call ClearTextBoxArea
+	pop af
+	ret

@@ -7,40 +7,40 @@ TwoOptionMenuStrings:
 ; entries correspond to *_MENU constants
 	table_width 5, TwoOptionMenuStrings
 	; width, height, blank line before first menu item?, text pointer
-	two_option_menu 4, 3, FALSE, .YesNoMenu
+	two_option_menu 18, 2, FALSE, .YesNoMenu
 	two_option_menu 6, 3, FALSE, .NorthWestMenu
 	two_option_menu 6, 3, FALSE, .SouthEastMenu
 	two_option_menu 6, 3, FALSE, .YesNoMenu
 	two_option_menu 6, 3, FALSE, .NorthEastMenu
 	two_option_menu 7, 3, FALSE, .TradeCancelMenu
-	two_option_menu 7, 4, TRUE,  .HealCancelMenu
-	two_option_menu 4, 3, FALSE, .NoYesMenu
+	two_option_menu 18, 2, FALSE,  .HealCancelMenu
+	two_option_menu 18, 2, FALSE, .NoYesMenu
 	assert_table_length NUM_TWO_OPTION_MENUS
 
 .NoYesMenu:
-	db   "NO"
-	next "YES@"
+	db   "No"
+	next "Yes@"
 
 .YesNoMenu:
-	db   "YES"
-	next "NO@"
+	db   "Yes"
+	next "No@"
 
 .NorthWestMenu:
-	db   "NORTH"
-	next "WEST@"
+	db   "North"
+	next "West@"
 
 .SouthEastMenu:
-	db   "SOUTH"
-	next "EAST@"
+	db   "South"
+	next "East@"
 
 .NorthEastMenu:
-	db   "NORTH"
-	next "EAST@"
+	db   "North"
+	next "East@"
 
 .TradeCancelMenu:
-	db   "TRADE"
-	next "CANCEL@"
+	db   "Trade"
+	next "No thanks@"
 
 .HealCancelMenu:
-	db   "HEAL"
-	next "CANCEL@"
+	db   "Heal"
+	next "No thanks@"

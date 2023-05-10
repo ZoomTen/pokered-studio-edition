@@ -222,14 +222,25 @@ DoneText::
 .stop:
 	text_end
 
-Paragraph::
-	push de
-	call ManualTextScroll_NoBlink
-	call ScrollWindowDownTextBox
+ClearTextBoxArea::
 	hlcoord 1, 1
 	lb bc, 2, 18
-	call ClearScreenArea
-	call ScrollWindowUpTextBox
+	jp ClearScreenArea
+
+PromptAndReshowTextBox::
+	call ManualTextScroll_NoBlink
+ReshowTextBox::
+	call ScrollWindowDownTextBox
+	call ClearTextBoxArea
+	jp ScrollWindowUpTextBox
+
+PromptAndHideTextBox::
+	call ManualTextScroll_NoBlink
+	jp ScrollWindowDown
+
+Paragraph::
+	push de
+	call PromptAndReshowTextBox
 	;ld c, 20
 	;call DelayFrames
 	pop de

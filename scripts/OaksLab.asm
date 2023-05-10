@@ -927,8 +927,10 @@ OaksLabMonChoiceMenu:
 	predef HideObject
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	call ScrollWindowUpTextBox
 	ld hl, OaksLabMonEnergeticText
 	call PrintText
+	call ReshowTextBox
 	ld hl, OaksLabReceivedMonText
 	call PrintText
 	xor a ; PLAYER_PARTY_DATA
@@ -937,6 +939,7 @@ OaksLabMonChoiceMenu:
 	ld [wCurEnemyLVL], a
 	ld a, [wcf91]
 	ld [wd11e], a
+	call PromptAndReshowTextBox
 	call AddPartyMon
 	ld hl, wd72e
 	set 3, [hl]
