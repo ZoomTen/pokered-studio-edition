@@ -7,6 +7,7 @@ DisplayPokemonCenterDialogue_::
 	set 1, [hl]
 	set 2, [hl]
 	jr nz, .skipShallWeHealYourPokemon
+	call PromptAndReshowTextBox
 	ld hl, ShallWeHealYourPokemonText
 	call PrintText
 .skipShallWeHealYourPokemon
@@ -15,9 +16,10 @@ DisplayPokemonCenterDialogue_::
 	and a
 	jr nz, .declinedHealing ; if the player chose No
 	call SetLastBlackoutMap
-	call LoadScreenTilesFromBuffer1 ; restore screen
+	call ScrollWindowUpTextBox
 	ld hl, NeedYourPokemonText
 	call PrintText
+	call PromptAndHideTextBox
 	ld a, $18
 	ld [wSprite01StateData1ImageIndex], a ; make the nurse turn to face the machine
 	call Delay3
@@ -31,16 +33,18 @@ DisplayPokemonCenterDialogue_::
 	ld [wLastMusicSoundID], a
 ;	ld [wNewSoundID], a
 	call PlayMusic
+	call ClearTextBoxArea
+	call ScrollWindowUpTextBox
 	ld hl, PokemonFightingFitText
 	call PrintText
 	ld a, $14
 	ld [wSprite01StateData1ImageIndex], a ; make the nurse bow
 	ld c, a
 	call DelayFrames
-	jr .done
+	call ScrollWindowDownTextBox
+	call ClearTextBoxArea
 .declinedHealing
-	call LoadScreenTilesFromBuffer1 ; restore screen
-.done
+	call ScrollWindowUpTextBox
 	ld hl, PokemonCenterFarewellText
 	call PrintText
 	jp UpdateSprites

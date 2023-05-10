@@ -163,7 +163,7 @@ _PokemonCenterWelcomeText::
 	para "We heal your"
 	line "#MON back to"
 	cont "perfect health!"
-	prompt
+	done
 
 _ShallWeHealYourPokemonText::
 	text "Shall we heal your"
