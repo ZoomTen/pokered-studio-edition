@@ -134,6 +134,13 @@ OaksLabScript5:
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	call Delay3
+	
+	ld a, 1 ; Blue
+	ld [wEmotionBubbleSpriteIndex], a
+	xor a
+	ld [wWhichEmotionBubble], a ; EXCLAMATION_BUBBLE
+	predef EmotionBubble
+	
 	ld a, $13
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
