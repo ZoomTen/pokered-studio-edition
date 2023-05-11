@@ -215,6 +215,10 @@ PromptText::
 
 DoneText::
 	pop hl
+; back to normal
+	ldh a, [hAutoBGTransferPortion]
+	res 1, a
+	ldh [hAutoBGTransferPortion], a
 	ld de, .stop
 	dec de
 	ret
@@ -327,7 +331,6 @@ TextCommandProcessor::
 	ldh a, [hAutoBGTransferPortion]
 	set 1, a
 	ldh [hAutoBGTransferPortion], a
-	
 	ld a, [wLetterPrintingDelayFlags]
 	push af
 	set 1, a
@@ -346,11 +349,6 @@ NextTextCommand::
 	jr nz, .TextCommand
 	pop af
 	ld [wLetterPrintingDelayFlags], a
-	
-; back to normal
-	ldh a, [hAutoBGTransferPortion]
-	res 1, a
-	ldh [hAutoBGTransferPortion], a
 	ret
 
 .TextCommand:
