@@ -148,6 +148,7 @@ OakSpeech:
 
 	xor a
 	call StopMusic
+	ldh [hWY], a  ; hide screen after animation
 
 	pop af
 	ldh [hLoadedROMBank], a

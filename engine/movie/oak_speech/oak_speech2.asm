@@ -3,13 +3,13 @@ OakSpeech_ClearTextboxAndResetW:
 	lb bc, 4, 20
 	call ClearScreenArea
 	call Delay3
-	xor a
-	ld [hWY], a
+	;xor a
+	;ld [hWY], a
 	ret
 
 ChoosePlayerName:
-	call OakSpeech_ClearTextboxAndResetW
-	call OakSpeechSlidePicRight
+	;call OakSpeech_ClearTextboxAndResetW
+	;call OakSpeechSlidePicRight
 	ld de, DefaultNamesPlayer
 	call DisplayIntroNameTextBox
 	ld a, [wCurrentMenuItem]
@@ -18,7 +18,8 @@ ChoosePlayerName:
 	ld hl, DefaultNamesPlayerList
 	call GetDefaultName
 	ld de, wPlayerName
-	call OakSpeechSlidePicLeft
+	call OakSpeechCopyNameBack
+	call ScrollWindowDown
 	jr .done
 .customName
 	ld hl, wPlayerName
@@ -35,7 +36,7 @@ ChoosePlayerName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, YourNameIsText
-	jp PrintText_Standalone
+	jp PrintText_Standalone_NoCopyBuffer
 
 YourNameIsText:
 	text_far _YourNameIsText
@@ -46,9 +47,7 @@ ChooseRivalName:
 	lb bc, 4, 20
 	call ClearScreenArea
 	call Delay3
-	xor a
-	ld [hWY], a
-	call OakSpeechSlidePicRight
+	;call OakSpeechSlidePicRight
 	ld de, DefaultNamesRival
 	call DisplayIntroNameTextBox
 	ld a, [wCurrentMenuItem]
@@ -57,7 +56,8 @@ ChooseRivalName:
 	ld hl, DefaultNamesRivalList
 	call GetDefaultName
 	ld de, wRivalName
-	call OakSpeechSlidePicLeft
+	call OakSpeechCopyNameBack
+	call ScrollWindowDown
 	jr .done
 .customName
 	ld hl, wRivalName
@@ -74,28 +74,16 @@ ChooseRivalName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, HisNameIsText
-	jp PrintText_Standalone
+	jp PrintText_Standalone_NoCopyBuffer
 
 HisNameIsText:
 	text_far _HisNameIsText
 	text_end
 
-OakSpeechSlidePicLeft:
-	push de
-	hlcoord 0, 0
-	lb bc, 12, 11
-	call ClearScreenArea ; clear the name list text box
-	ld c, 10
-	call DelayFrames
-	pop de
+OakSpeechCopyNameBack::
 	ld hl, wcd6d
 	ld bc, NAME_LENGTH
-	call CopyData
-	call Delay3
-	hlcoord 12, 4
-	lb de, 6, 6 * SCREEN_WIDTH + 5
-	ld a, $ff
-	jr OakSpeechSlidePicCommon
+	jp CopyData
 
 OakSpeechSlidePicRight:
 	hlcoord 5, 4
@@ -178,30 +166,26 @@ OakSpeechSlidePicCommon:
 DisplayIntroNameTextBox:
 	push de
 	hlcoord 0, 0
-	ld b, $a
-	ld c, $9
+	lb bc, 4, 18
 	call TextBoxBorder
-	hlcoord 3, 0
-	ld de, .namestring
-	call PlaceString
 	pop de
-	hlcoord 2, 2
+	hlcoord 2, 1
 	call PlaceString
 	call UpdateSprites
+	ld a, 6
+	ld [wWinTilesToScroll], a
+	call ScrollWindowUp
 	xor a
 	ld [wCurrentMenuItem], a
 	ld [wLastMenuItem], a
 	inc a
 	ld [wTopMenuItemX], a
 	ld [wMenuWatchedKeys], a ; A_BUTTON
-	inc a
 	ld [wTopMenuItemY], a
+	inc a
 	inc a
 	ld [wMaxMenuItem], a
 	jp HandleMenuInput
-
-.namestring
-	db "NAME@"
 
 INCLUDE "data/player_names.asm"
 

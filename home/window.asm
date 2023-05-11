@@ -281,15 +281,16 @@ AutoTextBoxDrawingCommon::
 	ret
 
 PrintText_Standalone::
-	;ldh a, [hAutoBGTransferDest + 1]
-	;push af
+; move tilemap to BG layer
+	push hl
 	ld a, HIGH(vBGMap1)
 	ldh [hAutoBGTransferDest + 1], a
-; Print text hl at (1, 14).
-	push hl
-; move tilemap to BG layer
 	ld b, HIGH(vBGMap0)
 	call CopyScreenTileBufferToVRAM
+	pop hl
+PrintText_Standalone_NoCopyBuffer::
+; Print text hl at (1, 14).
+	push hl
 ; show text box
 	ld a, MESSAGE_BOX
 	ld [wTextBoxID], a
