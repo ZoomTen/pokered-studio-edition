@@ -27,10 +27,11 @@ PrintLetterDelay::
 .checkAButton
 	bit BIT_A_BUTTON, a
 	jr z, .checkBButton
-	jr .endWait
+	jr .done
 .checkBButton
 	bit BIT_B_BUTTON, a
 	jr z, .buttonsNotPressed
+	jr .done
 .endWait
 	call DelayFrame
 	jr .done
