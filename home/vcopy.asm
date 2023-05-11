@@ -129,43 +129,42 @@ AutoBgMapTransfer::
 	ld a, l
 	ldh [hSPTemp + 1], a ; save stack pointer
 	ldh a, [hAutoBGTransferPortion]
-	and a
-	jr z, .transferTopThird
-	dec a
-	jr z, .transferMiddleThird
-.transferBottomThird
-	hlcoord 0, 12
+	bit 1, a ; TRANSFERTOP_ONLY
+	jr nz, .transferTopHalfOnly
+	bit 0, a
+	jr z, .transferTopHalf
+.transferBottomHalf
+	hlcoord 0, 9
 	ld sp, hl
 	ldh a, [hAutoBGTransferDest + 1]
 	ld h, a
 	ldh a, [hAutoBGTransferDest]
 	ld l, a
-	ld de, (12 * 32)
+	ld de, (9 * 32)
 	add hl, de
 	xor a ; TRANSFERTOP
 	jr .doTransfer
-.transferTopThird
+.transferTopHalfOnly
 	hlcoord 0, 0
 	ld sp, hl
 	ldh a, [hAutoBGTransferDest + 1]
 	ld h, a
 	ldh a, [hAutoBGTransferDest]
 	ld l, a
-	ld a, TRANSFERMIDDLE
-	jr .doTransfer
-.transferMiddleThird
-	hlcoord 0, 6
+	jr .doTransferNoSet
+.transferTopHalf
+	hlcoord 0, 0
 	ld sp, hl
 	ldh a, [hAutoBGTransferDest + 1]
 	ld h, a
 	ldh a, [hAutoBGTransferDest]
 	ld l, a
-	ld de, (6 * 32)
-	add hl, de
 	ld a, TRANSFERBOTTOM
+	jr .doTransfer
 .doTransfer
 	ldh [hAutoBGTransferPortion], a ; store next portion
-	ld b, 6
+.doTransferNoSet
+	ld b, 9
 
 TransferBgRows::
 ; unrolled loop and using pop for speed

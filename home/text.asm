@@ -317,6 +317,11 @@ ProtectedDelay3::
 	ret
 
 TextCommandProcessor::
+; transfer only top half of the buffer to the window
+	ldh a, [hAutoBGTransferPortion]
+	set 1, a
+	ldh [hAutoBGTransferPortion], a
+	
 	ld a, [wLetterPrintingDelayFlags]
 	push af
 	set 1, a
@@ -335,6 +340,11 @@ NextTextCommand::
 	jr nz, .TextCommand
 	pop af
 	ld [wLetterPrintingDelayFlags], a
+	
+; back to normal
+	ldh a, [hAutoBGTransferPortion]
+	res 1, a
+	ldh [hAutoBGTransferPortion], a
 	ret
 
 .TextCommand:
