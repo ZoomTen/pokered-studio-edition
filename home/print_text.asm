@@ -17,10 +17,13 @@ PrintLetterDelay::
 	ld a, [wOptions]
 	and $f
 	ldh [hFrameCounter], a
+IF 0 ;;;;;;;;;;;;;;;;
 	jr .checkButtons
+ENDC
 .waitOneFrame
 	ld a, 1
 	ldh [hFrameCounter], a
+IF 0 ;;;;;;;;;;;;;;;;
 .checkButtons
 	call Joypad
 	ldh a, [hJoyHeld]
@@ -33,13 +36,16 @@ PrintLetterDelay::
 	jr z, .buttonsNotPressed
 	jr .done
 .endWait
+ENDC ;;;;;;;;;;;;;;;;
 	call DelayFrame
+IF 0 ;;;;;;;;;;;;;;;;
 	jr .done
 .buttonsNotPressed ; if neither A nor B is pressed
 	ldh a, [hFrameCounter]
 	and a
 	jr nz, .checkButtons
 .done
+ENDC ;;;;;;;;;;;;;;;;
 	pop bc
 	pop de
 	pop hl
