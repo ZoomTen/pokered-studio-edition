@@ -1,7 +1,5 @@
 SFX_Press_AB_1_Ch5:
-	duty_cycle 2
-	square_note 0, 9, 1, 1984
-	square_note 0, 8, 1, 2000
-	square_note 0, 9, 1, 1984
-	square_note 12, 10, 1, 2000
+	duty_cycle 0
+	square_note 2, 15, 0, 1890
+	square_note 18, 15, 1, 1930
 	sound_ret
