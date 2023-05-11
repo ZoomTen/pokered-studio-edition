@@ -1,9 +1,21 @@
 ; displays yes/no choice
 ; yes -> set carry
 YesNoChoice::
+; if there's more text right after a yes/no choice
+	call SaveScreenTilesToBuffer1
+	call InitYesNoTextBoxParameters
+	call DisplayYesNoChoice
+	push af
+		call ScrollWindowUpTextBox
+	pop af
+	ret
+	
+YesNoChoice_NoContinue::
+; if text closes right after a yes/no choice
 	call SaveScreenTilesToBuffer1
 	call InitYesNoTextBoxParameters
 	jr DisplayYesNoChoice
+	
 
 TwoOptionMenu:: ; unreferenced
 	ld a, TWO_OPTION_MENU
@@ -39,8 +51,7 @@ DisplayYesNoChoice::
 	call DisplayTextBoxID
 	push af
 	call ScrollWindowDown
-; hack to instantly hide the textbox from view
-; if no other text is displayed after this
+; instantly hide the textbox from view
 	call HideWindow
 	call ClearTextBoxArea
 	pop af

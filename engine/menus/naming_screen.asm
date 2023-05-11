@@ -13,7 +13,7 @@ AskName:
 	call GetMonName
 	ld hl, DoYouWantToNicknameText
 	call PrintText
-	call YesNoChoice
+	call YesNoChoice_NoContinue
 	pop hl
 	ld a, [wCurrentMenuItem]
 	and a

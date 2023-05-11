@@ -902,7 +902,7 @@ OaksLabMonChoiceMenu:
 	call PrintText
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
-	call YesNoChoice ; yes/no menu
+	call YesNoChoice_NoContinue ; yes/no menu
 	ld a, [wCurrentMenuItem]
 	and a
 	jr nz, OaksLabMonChoiceEnd
