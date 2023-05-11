@@ -175,7 +175,6 @@ INCLUDE "crysaudio/music/RBY/indigoplateau.asm"
 INCLUDE "crysaudio/music/RBY/unusedsong.asm"
 INCLUDE "crysaudio/music/RBY/cities1.asm"
 INCLUDE "crysaudio/music/RBY/museumguy.asm"
-INCLUDE "crysaudio/music/RBY/meetrival.asm"
 INCLUDE "crysaudio/music/RBY/ssanne.asm"
 INCLUDE "crysaudio/music/RBY/cities2.asm"
 INCLUDE "crysaudio/music/RBY/celadon.asm"
@@ -225,6 +224,7 @@ INCLUDE "crysaudio/music/shit/pallettown.asm"
 INCLUDE "crysaudio/music/shit/trainerbattle.asm"
 INCLUDE "crysaudio/music/shit/meetprofoak.asm"
 INCLUDE "crysaudio/music/shit/oakslab.asm"
+INCLUDE "crysaudio/music/shit/meetrival.asm"
 
 
 SECTION "Sound Effects", ROMX
