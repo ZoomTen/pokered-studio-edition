@@ -539,7 +539,7 @@ CheckSpriteAvailability:
 	add SPRITESTATEDATA1_YPIXELS
 	ld l, a
 	ld a, [hli]     ; x#SPRITESTATEDATA1_YPIXELS
-	cp $60
+	cp $70
 	jr nc, .spriteInvisible
 	jr .spriteVisible
 .checkTextboxNormally
