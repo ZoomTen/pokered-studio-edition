@@ -25,6 +25,8 @@ MomWakeUpText:
 MomHealPokemon:
 	ld hl, MomHealText1
 	call PrintText
+	call ScrollWindowDown
+	call ClearTextBoxArea
 	call GBFadeOutToWhite
 	call ReloadMapData
 	predef HealParty
@@ -42,6 +44,7 @@ MomHealPokemon:
 ;	ld [wNewSoundID], a
 	call PlayMusic
 	call GBFadeInFromWhite
+	call ScrollWindowUpTextBox
 	ld hl, MomHealText2
 	jp PrintText
 
