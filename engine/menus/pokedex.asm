@@ -399,6 +399,7 @@ ShowPokedexData:
 	xor a
 	ld [hWY], a
 	ld [wIsTextBoxOpened], a
+	ldh [hAutoBGTransferPortion], a ; disable smooth text override
 	call UpdateSprites
 	callfar LoadPokedexTilePatterns ; load pokedex tiles
 

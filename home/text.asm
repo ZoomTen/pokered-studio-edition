@@ -249,6 +249,12 @@ Paragraph::
 
 PageChar::
 	push de
+
+; <PAGE> should be a pokedex thing, so disable
+; the smooth text override
+	xor a
+	ldh [hAutoBGTransferPortion], a
+	
 	ld a, "▼"
 	ldcoord_a 18, 16
 	call ProtectedDelay3
