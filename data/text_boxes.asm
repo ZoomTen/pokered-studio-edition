@@ -8,6 +8,7 @@ TextBoxFunctionTable:
 TextBoxCoordTable:
 	; text box ID, upper-left X, upper-left Y, lower-right X, lower-right Y
 	db MESSAGE_BOX,       0, 0, 19, 3
+	db MESSAGE_BOX_BATTLE, 0, 14, 19, 17
 	db MENU_TEMPLATE_03,  0,  0, 19, 14
 	db MENU_TEMPLATE_07,  0,  0, 11,  6
 	db LIST_MENU_BOX,     4,  2, 19, 12
@@ -28,7 +29,7 @@ TextBoxTextAndCoordTable:
 	text_box_text USE_TOSS_MENU_TEMPLATE,            13, 10, 19, 14, UseTossText,             15, 11
 	text_box_text JP_SAVE_MESSAGE_MENU_TEMPLATE,      0,  0,  7,  5, JapaneseSaveMessageText,  2,  2
 	text_box_text JP_SPEED_OPTIONS_MENU_TEMPLATE,     0,  6,  5, 10, JapaneseSpeedOptionsText, 2,  7
-	text_box_text BATTLE_MENU_TEMPLATE,               8, 12, 19, 17, BattleMenuText,          10, 14
+	text_box_text BATTLE_MENU_TEMPLATE,               0, 12, 19, 17, BattleMenuText,          2, 13
 	text_box_text SAFARI_BATTLE_MENU_TEMPLATE,        0, 12, 19, 17, SafariZoneBattleMenuText, 2, 14
 	text_box_text SWITCH_STATS_CANCEL_MENU_TEMPLATE, 11, 11, 19, 17, SwitchStatsCancelText,   13, 12
 	text_box_text BUY_SELL_QUIT_MENU_TEMPLATE,        0,  0, 10,  6, BuySellQuitText,          2,  1
@@ -66,8 +67,10 @@ JapaneseMainMenuText:
 	next "さいしょから@"
 
 BattleMenuText:
-	db   "FIGHT <PK><MN>"
-	next "ITEM  RUN@"
+	db   "Fight"
+	next "Item"
+	next "#MON"
+	next "Run@"
 
 SafariZoneBattleMenuText:
 	db   "BALL×       BAIT"

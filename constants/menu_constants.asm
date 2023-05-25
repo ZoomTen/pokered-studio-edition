@@ -4,7 +4,7 @@ DEF PC_ITEM_CAPACITY  EQU 50
 ; text box IDs
 	const_def 1
 	const MESSAGE_BOX                       ; $01
-	const_skip                              ; $02
+	const MESSAGE_BOX_BATTLE                ; $02
 	const MENU_TEMPLATE_03                  ; $03 unused
 	const FIELD_MOVE_MON_MENU               ; $04
 	const JP_MOCHIMONO_MENU_TEMPLATE        ; $05

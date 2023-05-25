@@ -7,7 +7,7 @@ DisplayEffectiveness:
 	jr nc, .done
 	ld hl, NotVeryEffectiveText
 .done
-	jp PrintText
+	jp PrintText_InBattle
 
 SuperEffectiveText:
 	text_far _SuperEffectiveText

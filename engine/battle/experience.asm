@@ -147,7 +147,7 @@ GainExperience:
 	ld hl, wPartyMonNicks
 	call GetPartyMonName
 	ld hl, GainedText
-	call PrintText
+	call PrintText_InBattle
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	call LoadMonData
@@ -241,7 +241,7 @@ GainExperience:
 	call SaveScreenTilesToBuffer1
 .printGrewLevelText
 	ld hl, GrewLevelText
-	call PrintText
+	call PrintText_InBattle
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	call LoadMonData

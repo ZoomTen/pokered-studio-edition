@@ -449,10 +449,10 @@ PrintPlayTime:
 	jp PrintNumber
 
 SaveScreenInfoText:
-	db   "PLAYER"
-	next "BADGES    "
+	db   "Player"
+	next "Badges    "
 	next "#DEX    "
-	next "TIME@"
+	next "Time@"
 
 DisplayOptionMenu:
 ; reset 

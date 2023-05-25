@@ -319,6 +319,19 @@ PrintText_NoCreatingTextBox::
 	bccoord 1, 1
 	jp TextCommandProcessor
 
+PrintText_InBattle::
+; Print text hl at (1, 14).
+	push hl
+; show text box
+	ld a, MESSAGE_BOX_BATTLE
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	call UpdateSprites
+	call Delay3
+	pop hl
+	bccoord 1, 15
+	jp TextCommandProcessor
+
 ScrollWindowUpTextBox::
 	ld a, 1
 	ld [wIsTextBoxOpened], a

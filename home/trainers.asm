@@ -351,7 +351,7 @@ PrintEndBattleText::
 	push hl
 	farcall SaveTrainerName
 	ld hl, TrainerEndBattleText
-	call PrintText
+	call PrintText_InBattle
 	pop hl
 	pop af
 	ldh [hLoadedROMBank], a

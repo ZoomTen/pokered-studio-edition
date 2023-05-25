@@ -75,7 +75,12 @@ PlaceNextChar::
 	cp "<LINE>"
 	jr nz, .NotLine
 	pop hl
+	hlcoord 1, 16
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .battle
 	hlcoord 1, 2
+.battle
 	push hl
 	jp NextChar
 
@@ -205,13 +210,13 @@ PromptText::
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jp z, .ok
-	ld a, "▼"
-	ldcoord_a 18, 2
+	;ld a, "▼"
+	;ldcoord_a 18, 2
 .ok
 	call ProtectedDelay3
-	call ManualTextScroll
-	ld a, " "
-	ldcoord_a 18, 2
+	call ManualTextScroll_NoBlink
+	;ld a, " "
+	;ldcoord_a 18, 2
 
 DoneText::
 	pop hl
@@ -275,18 +280,23 @@ PageChar::
 	jp NextChar
 
 _ContText::
-	ld a, "▼"
-	ldcoord_a 18, 2
-	call ProtectedDelay3
+	;ld a, "▼"
+	;ldcoord_a 18, 2
+	;call ProtectedDelay3
 	push de
-	call ManualTextScroll
+	call ManualTextScroll_NoBlink
 	pop de
-	ld a, " "
-	ldcoord_a 18, 2
+	;ld a, " "
+	;ldcoord_a 18, 2
 _ContTextNoPause::
 	push de
 	call ScrollTextUpOneLine
+	hlcoord 1, 16
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .battle
 	hlcoord 1, 2
+.battle
 	pop de
 	jp NextChar
 
@@ -295,8 +305,14 @@ _ContTextNoPause::
 ; first time, copy the two rows of text to the "in between" rows that are usually emtpy
 ; second time, copy the bottom row of text into the top row of text
 ScrollTextUpOneLine::
+	hlcoord 1, 16 ; top row of text
+	decoord 1, 15 ; empty line above text
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .battle
 	hlcoord 1, 2 ; top row of text
 	decoord 1, 1 ; empty line above text
+.battle
 	ld b, SCREEN_WIDTH - 1
 .copyText
 	ld a, [hli]
@@ -304,20 +320,18 @@ ScrollTextUpOneLine::
 	inc de
 	dec b
 	jr nz, .copyText
+	hlcoord 1, 16
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .battle2
 	hlcoord 1, 2
+.battle2
 	ld a, " "
 	ld b, SCREEN_WIDTH - 2
 .clearText
 	ld [hli], a
 	dec b
 	jr nz, .clearText
-
-	ld b, 3
-.WaitFrame
-	call DelayFrame
-	dec b
-	jr nz, .WaitFrame
-
 	ret
 
 ProtectedDelay3::
@@ -327,10 +341,14 @@ ProtectedDelay3::
 	ret
 
 TextCommandProcessor::
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .skip_modifying_autoxfer
 ; transfer only top half of the buffer to the window
 	ldh a, [hAutoBGTransferPortion]
 	set 1, a
 	ldh [hAutoBGTransferPortion], a
+.skip_modifying_autoxfer
 	ld a, [wLetterPrintingDelayFlags]
 	push af
 	set 1, a

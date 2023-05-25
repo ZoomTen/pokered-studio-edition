@@ -267,6 +267,10 @@ PrintStatsBox:
 .PrintStats
 	push bc
 	push hl
+	ldh a, [hUILayoutFlags]
+	res 1, a
+	res 2, a
+	ldh [hUILayoutFlags], a
 	ld de, StatsText
 	call PlaceString
 	pop hl
@@ -280,7 +284,12 @@ PrintStatsBox:
 	ld de, wLoadedMonSpeed
 	call PrintStat
 	ld de, wLoadedMonSpecial
-	jp PrintNumber
+	call PrintNumber
+	ldh a, [hUILayoutFlags]
+	set 1, a
+	set 2, a
+	ldh [hUILayoutFlags], a
+	ret
 PrintStat:
 	push hl
 	call PrintNumber

@@ -596,7 +596,7 @@ SwitchEnemyMon:
 	call CopyData
 
 	ld hl, AIBattleWithdrawText
-	call PrintText
+	call PrintText_InBattle
 
 	; This wFirstMonsNotOutYet variable is abused to prevent the player from
 	; switching in a new mon in response to this switch.
@@ -735,7 +735,7 @@ AIPrintItemUse_:
 	ld [wd11e], a
 	call GetItemName
 	ld hl, AIBattleUseItemText
-	jp PrintText
+	jp PrintText_InBattle
 
 AIBattleUseItemText:
 	text_far _AIBattleUseItemText
