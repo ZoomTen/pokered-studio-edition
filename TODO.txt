@@ -1,0 +1,16 @@
+TO CHECK:
+	- PC menu
+	- Battle screens
+
+TO CONSIDER:
+	- Two approaches to text:
+		- Emulate older GBS
+			- Letters advance max. 2 frames at a time
+			- Safe for use with the current AutoBGMapTransfer of
+			  half the screen per frame
+		- Emulate newer GBS
+			- Letters advance max. 1 frames at a time
+			- Requires a hack to make AutoBGMapTransfer update only
+			  the top half of the screen (because that's where the
+			  WINDOW is), seems risky
+			- Can press A to instantly advance a line (sensitive)

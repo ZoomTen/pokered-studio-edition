@@ -40,15 +40,16 @@ Music_RivalAlternateStartAndTempo::
 
 ; an alternate tempo for Cities1 which is used for the Hall of Fame room
 Music_Cities1AlternateTempo::
-	ld a, 10
-	ld [wMusicFade], a
-	xor a
-	ld [wMusicFadeID], a
-	ld c, 100
-	call DelayFrames ; wait for the fade-out to finish
+	;ld a, 10
+	;ld [wMusicFade], a
+	;xor a
+	;ld [wMusicFadeID], a
+	;ld c, 100
+	;call DelayFrames ; wait for the fade-out to finish
 	ld c, 0 ; BANK(Music_Cities1)
 	ld a, MUSIC_CITIES1
 	call PlayMusic
-	ld hl, wChannel1MusicAddress
-	ld de, Music_Cities1_Ch1_AlternateTempo
-	jp Audio1_OverwriteChannelPointer
+	;ld hl, wChannel1MusicAddress
+	;ld de, Music_Cities1_Ch1_AlternateTempo
+	;jp Audio1_OverwriteChannelPointer
+	ret
