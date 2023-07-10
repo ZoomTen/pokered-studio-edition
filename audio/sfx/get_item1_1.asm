@@ -1,4 +1,5 @@
 SFX_Get_Item1_1_Ch5:
+	sound_ret
 	execute_music
 	tempo 256
 	volume 7, 7
@@ -16,6 +17,7 @@ SFX_Get_Item1_1_Ch5:
 	sound_ret
 
 SFX_Get_Item1_1_Ch6:
+	sound_ret
 	execute_music
 	vibrato 8, 2, 7
 	duty_cycle 2
@@ -29,6 +31,7 @@ SFX_Get_Item1_1_Ch6:
 	sound_ret
 
 SFX_Get_Item1_1_Ch7:
+	sound_ret
 	execute_music
 	note_type 4, 1, 0
 	octave 4
