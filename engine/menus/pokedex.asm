@@ -552,10 +552,10 @@ ShowPokedexDataInternal:
 	ld a, [de] ; a = lower byte of weight
 	ld [hl], a ; store lower byte of weight in [hDexWeight + 1]
 	ld de, hDexWeight
-	hlcoord 11, 8
+	hlcoord 11, 7
 	lb bc, 2, 5 ; 2 bytes, 5 digits
 	call PrintNumber ; print weight
-	hlcoord 14, 8
+	hlcoord 14, 7
 	ldh a, [hDexWeight + 1]
 	sub 10
 	ldh a, [hDexWeight]
